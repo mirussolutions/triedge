@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
   namespace :admin do
+    resources :chapters
+  end
+
+  namespace :admin do
    resources :courses
   end
 

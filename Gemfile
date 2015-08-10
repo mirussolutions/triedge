@@ -62,3 +62,5 @@ group :development do
   gem 'pry'
 end
 
+gem 'rails-admin-scaffold'
+
