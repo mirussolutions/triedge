@@ -1,4 +1,4 @@
-class Admin::ChaptersController < AdminController
+class Admin::ChaptersController < ApplicationController
   before_action :set_chapter, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/chapters
@@ -29,11 +29,12 @@ class Admin::ChaptersController < AdminController
   # POST /admin/chapters
   # POST /admin/chapters.json
   def create
+    
+ @chapter = Chapter.create(chapter_params)
     @chapter.course_id = params[:course_id] 
     @course = Course.find(@chapter.course_id)
-    @chapter = @course.chapter.create(chapter_params)
 
-    respond_to do |format|
+    
       if @chapter.save
       flash[:success] = "You created a new chapter, '#{ @chapter.title }' for course #{ @chapter.course_id }"
       redirect_to admin_course_path(@chapter.course_id)
@@ -41,7 +42,7 @@ class Admin::ChaptersController < AdminController
       flash[:alert] = "You could not create a new chapter. Please check the error messages."
       render :new
     end
-    end
+   
   end
 
   # PATCH/PUT /admin/chapters/1
