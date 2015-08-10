@@ -19,7 +19,7 @@
         <td><%= chapter.description %></td>
         <td><%= chapter.course_id %></td>
         <td><%= link_to 'Show', [:admin, chapter] %></td>
-        <td><%= link_to 'Edit', edit_admin_chapter_path(chapter) %></td>
+        <td><%= link_to 'Edit', edit_admin_course_chapter_path(chapter) %></td>
         <td><%= link_to 'Destroy', [:admin, chapter], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Chapter', new_admin_chapter_path %>
+<%= link_to 'New Chapter', new_admin_course_chapter_path %>
