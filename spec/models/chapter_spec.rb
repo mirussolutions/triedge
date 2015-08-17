@@ -23,4 +23,11 @@ describe Chapter do
  	video2 = FactoryGirl.create(:video, chapter_id: chapter.id)
  	expect(chapter.videos).to include(video1, video2)
  end
+
+ it "has one quiz" do
+ 	chapter = FactoryGirl.create(:chapter)
+ 	quiz1 = Quiz.create(title: "quiz1", chapter_id: chapter.id)
+ 	expect(chapter.quiz).to eq(quiz1)
+ end
+
 end

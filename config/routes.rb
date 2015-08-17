@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   
   namespace :admin do
+    resources :quizzes
+  end
+
+  namespace :admin do
     resources :videos
   end
 
