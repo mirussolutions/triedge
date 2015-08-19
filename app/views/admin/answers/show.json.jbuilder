@@ -1,0 +1,1 @@
+json.extract! @answer, :title, :is_correct, :question_id, :created_at, :updated_at

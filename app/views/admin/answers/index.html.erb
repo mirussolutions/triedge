@@ -1,0 +1,31 @@
+<h1>Listing answers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Is correct</th>
+      <th>Question</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @answers.each do |answer| %>
+      <tr>
+        <td><%= answer.title %></td>
+        <td><%= answer.is_correct %></td>
+        <td><%= answer.question_id %></td>
+        <td><%= link_to 'Show', [:admin, answer] %></td>
+        <td><%= link_to 'Edit', edit_admin_answer_path(answer) %></td>
+        <td><%= link_to 'Destroy', [:admin, answer], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Answer', new_admin_answer_path %>
