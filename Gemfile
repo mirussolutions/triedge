@@ -64,3 +64,7 @@ end
 
 gem 'rails-admin-scaffold'
 
+# User Management
+gem 'devise'
+gem 'cancancan'
+gem 'rolify'
