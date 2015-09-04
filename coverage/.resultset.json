@@ -20,6 +20,7 @@
         null,
         1,
         null,
+        null,
         null
       ],
       "/home/resource/rorapps/triedge/app/helpers/admin/answers_helper.rb": [
@@ -47,6 +48,10 @@
         null
       ],
       "/home/resource/rorapps/triedge/app/helpers/courses_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/dashboard_helper.rb": [
         1,
         null
       ],
@@ -136,14 +141,24 @@
         null,
         1,
         1,
-        1,
-        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         1,
         0,
+        0,
+        null,
+        null,
+        0,
+        null,
         null,
         null
       ]
     },
-    "timestamp": 1441349653
+    "timestamp": 1441372322
   }
 }
