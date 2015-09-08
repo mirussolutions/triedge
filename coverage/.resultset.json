@@ -126,7 +126,7 @@
         1,
         null,
         1,
-        0,
+        1,
         null,
         null,
         null,
@@ -157,8 +157,14 @@
         null,
         null,
         null
+      ],
+      "/home/resource/rorapps/triedge/app/models/course.rb": [
+        1,
+        1,
+        1,
+        null
       ]
     },
-    "timestamp": 1441372322
+    "timestamp": 1441697832
   }
 }
