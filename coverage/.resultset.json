@@ -1,0 +1,170 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/home/resource/rorapps/triedge/app/models/role.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/models/user.rb": [
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/admin/answers_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/admin/chapters_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/admin/questions_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/admin/quizzes_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/admin/videos_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/courses_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/dashboard_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/helpers/page_helper.rb": [
+        1,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/controllers/admin/courses_controller.rb": [
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/controllers/application_controller.rb": [
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null
+      ],
+      "/home/resource/rorapps/triedge/app/models/course.rb": [
+        1,
+        1,
+        1,
+        null
+      ]
+    },
+    "timestamp": 1441697832
+  }
+}
