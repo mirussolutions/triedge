@@ -31,12 +31,10 @@ class Ability
 
     user ||= User.new # This is used for not logged user if you have a need for it
 
-    if user.has_role? :blog_owner
+    if user.has_role? :admin
       can :manage, :all
     else
-      if user.has_role? :student
-        can :read, Course
-                
-      end
+      can :read, Course
+    end
   end
 end

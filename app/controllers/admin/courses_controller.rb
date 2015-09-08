@@ -1,6 +1,5 @@
 class Admin::CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource :class => Course, :instance_name => "course"
   # GET /courses
   # GET /courses.json
   def index
@@ -25,30 +24,25 @@ class Admin::CoursesController < ApplicationController
   # POST /courses.json
   def create
     @course = Course.new(course_params)
-
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to admin_course_chapters_path(@course), notice: 'Course was successfully created.' }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
+    if @course.save
+      flash[:success] = "You have created the course '#{ @course.title }' successfully."
+      redirect_to admin_courses_path
+    else
+      flash[:alert] = "You are not allowed to add this course. Please check the errors."
+      render :new
     end
   end
 
   # PATCH/PUT /courses/1
   # PATCH/PUT /courses/1.json
   def update
-    respond_to do |format|
       if @course.update(course_params)
-        format.html { redirect_to admin_courses_path, notice: 'Course was successfully updated.' }
-        format.json { render :show, status: :ok, location: @course }
-      else
-        format.html { render :edit }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
+        flash[:success] = "You have updated the course '#{ @course.title }' successfully"
+        redirect_to admin_courses_path
+    else
+        flash[:alert] = "You are not update this record. Please check the errors."
+        render :edit 
       end
-    end
   end
 
   # DELETE /courses/1
