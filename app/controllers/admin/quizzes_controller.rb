@@ -1,4 +1,5 @@
 class Admin::QuizzesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_quiz, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/quizzes
@@ -10,15 +11,26 @@ class Admin::QuizzesController < ApplicationController
   # GET /admin/quizzes/1
   # GET /admin/quizzes/1.json
   def show
+    @quiz = Quiz.find(params[:id])
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # GET /admin/quizzes/new
   def new
-    @quiz = Quiz.new
+    @chapter = Chapter.find(params[:chapter_id])
+    if @chapter.quiz.present?
+      flash[:alert] = "Chapter #{@chapter.title} already has a quiz"
+      redirect_to admin_chapter_path(@chapter.id)
+    else
+      @quiz = Quiz.new
+      @quiz.chapter_id = @chapter.id
+    end
   end
 
   # GET /admin/quizzes/1/edit
   def edit
+    @quiz = Quiz.find(params[:id])
+    @chapter = Chapter.find(params[:chapter_id])
   end
 
   # POST /admin/quizzes
@@ -26,38 +38,36 @@ class Admin::QuizzesController < ApplicationController
   def create
     @quiz = Quiz.new(quiz_params)
 
-    respond_to do |format|
-      if @quiz.save
-        format.html { redirect_to [:admin, @quiz], notice: 'Quiz was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @quiz }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @quiz.errors, status: :unprocessable_entity }
-      end
+    @quiz.chapter_id = params[:chapter_id]
+    @chapter = Chapter.find(@quiz.chapter_id)
+    if @quiz.save 
+      flash[:success] = "You have created a new quiz, #{ @quiz.title } successfully."
+      redirect_to admin_chapter_path(params[:chapter_id])
+    else
+      flash[:alert] = "The quiz was not created. Please check the error messages."
+      render :new
     end
   end
 
   # PATCH/PUT /admin/quizzes/1
   # PATCH/PUT /admin/quizzes/1.json
   def update
-    respond_to do |format|
+    @chapter = Chapter.find(params[:chapter_id])
       if @quiz.update(quiz_params)
-        format.html { redirect_to [:admin, @quiz], notice: 'Quiz was successfully updated.' }
-        format.json { head :no_content }
+        flash[:success] = "You have updated quiz: '#{@quiz.title}' successfully."
+        redirect_to admin_chapter_quiz_path(params[:chapter_id], params[:id])
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @quiz.errors, status: :unprocessable_entity }
+        flash[:alert] = "The quiz was not updated. Please check the error messages."
+        render :edit
       end
-    end
   end
 
   # DELETE /admin/quizzes/1
   # DELETE /admin/quizzes/1.json
   def destroy
-    @quiz.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_quizzes_url, notice: 'Quiz was successfully destroyed.' }
-      format.json { head :no_content }
+    if @quiz.destroy
+      flash[:success] = "You have deleted the quiz: '#{@quiz.title}' successfully."
+      redirect_to admin_chapter_path(params[:chapter_id])  
     end
   end
 
