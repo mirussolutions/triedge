@@ -34,7 +34,7 @@ class Ability
     if user.has_role? :admin
       can :manage, :all
     else
-      can :read, Course
+      can :read, :all
     end
   end
 end

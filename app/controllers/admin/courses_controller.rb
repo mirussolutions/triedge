@@ -49,10 +49,8 @@ class Admin::CoursesController < ApplicationController
   # DELETE /courses/1.json
   def destroy
     @course.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_courses_path, notice: 'Course was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:success] = "You have successfully deleted the course '#{ @course.title }'."
+    redirect_to admin_courses_path
   end
 
   private

@@ -1,4 +1,5 @@
 class Admin::ChaptersController < ApplicationController
+  load_and_authorize_resource 
   before_action :set_chapter, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/chapters
@@ -33,8 +34,6 @@ class Admin::ChaptersController < ApplicationController
  @chapter = Chapter.create(chapter_params)
     @chapter.course_id = params[:course_id] 
     @course = Course.find(@chapter.course_id)
-
-    
       if @chapter.save
       flash[:success] = "You created a new chapter, '#{ @chapter.title }' for course #{ @chapter.course_id }"
       redirect_to admin_course_path(@chapter.course_id)
@@ -48,24 +47,22 @@ class Admin::ChaptersController < ApplicationController
   # PATCH/PUT /admin/chapters/1
   # PATCH/PUT /admin/chapters/1.json
   def update
-    respond_to do |format|
-      if @chapter.update(chapter_params)
-        format.html { redirect_to [:admin, @chapter], notice: 'Chapter was successfully updated.' }
-        format.json { head :no_content }
+     if @chapter.update(chapter_params)
+        flash[:success] = "You have updated chapter '#{ @chapter.title }' successfully."
+        redirect_to admin_course_chapter_path(@chapter.course_id, @chapter.id)
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @chapter.errors, status: :unprocessable_entity }
+        flash[:alert] = "The chapter was not updated. Please check the error messages."
+        render :edit
       end
-    end
   end
 
   # DELETE /admin/chapters/1
   # DELETE /admin/chapters/1.json
   def destroy
     @chapter.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_course_path, notice: 'Chapter was successfully destroyed.' }
-      format.json { head :no_content }
+    if @chapter.destroy
+      flash[:success] = "You have deleted chapter '#{@chapter.title}' successfully."
+      redirect_to admin_course_path(@chapter.course_id)
     end
   end
 
