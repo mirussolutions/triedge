@@ -84,6 +84,7 @@ describe Admin::CoursesController do
                 post :create, course: {title: "workshop on IT Recruitment", description: "In this workshop, one will learn how they can do IT Recruitment"}
                 expect(response).to redirect_to admin_courses_path
             end
+
             it "sets the flash success message" do
                 post :create, course: {title: "workshop on IT Recruitment", description: "In this workshop, one will learn how they can do IT Recruitment"}
                 expect(flash[:success]).to be_present 
@@ -130,7 +131,7 @@ describe Admin::CoursesController do
           it "redirects to the index page" do
             put :update, id: course.id, course: { id: course.id, title: "title new", description: course.description } 
 
-            expect(response).to redirect_to admin_courses_path 
+           expect(response).to redirect_to admin_courses_path 
           end
        end
        context "with invalid attributes " do
