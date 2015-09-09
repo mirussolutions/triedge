@@ -24,6 +24,11 @@ Rails.application.routes.draw do
      resources :chapters
    end
   end
-
+ namespace :admin do
+    resources :chapters do
+      resources :videos
+      resources :quizzes
+    end
+  end
  
 end

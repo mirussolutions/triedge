@@ -61,7 +61,7 @@ describe Admin::ChaptersController do
     end
     context "If user is loggedin as an admin" do
       login_admin
-      it "sets the course to a new chapter" do
+      it "sets the chapter to a new chapter" do
         get :new, course_id: @course.id
         expect(assigns(:chapter)).to be_instance_of(Chapter)
         expect(assigns(:chapter)).to be_new_record
