@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820095013) do
+ActiveRecord::Schema.define(version: 20150909100211) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20150820095013) do
     t.integer  "course_id",   limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "tagline",     limit: 255
+    t.string   "badge_image", limit: 255
   end
 
   create_table "courses", force: :cascade do |t|
