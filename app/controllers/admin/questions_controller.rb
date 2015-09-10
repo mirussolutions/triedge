@@ -11,54 +11,63 @@ class Admin::QuestionsController < ApplicationController
   # GET /admin/questions/1
   # GET /admin/questions/1.json
   def show
+    @question = Question.find(params[:id]) 
+    @quiz = Quiz.find(@question.quiz_id)
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # GET /admin/questions/new
   def new
     @question = Question.new
+    @quiz = Quiz.find(params[:quiz_id])
+    @question.quiz_id = @quiz.id
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # GET /admin/questions/1/edit
   def edit
+    @quiz = Quiz.find(params[:quiz_id])
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # POST /admin/questions
   # POST /admin/questions.json
   def create
     @question = Question.new(question_params)
-
-    respond_to do |format|
-      if @question.save
-        format.html { redirect_to [:admin, @question], notice: 'Question was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @question }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @question.errors, status: :unprocessable_entity }
-      end
+    @question.quiz_id = params[:quiz_id]
+    @quiz = Quiz.find(@question.quiz_id)
+    if @question.save
+      flash[:success] = "You have created the question: '#{@question.title}' successfully."
+      redirect_to admin_quiz_path(params[:quiz_id])
+    else
+      flash[:alert] = "The question was not created. Please check the error messages."
+      render :new
     end
   end
 
   # PATCH/PUT /admin/questions/1
   # PATCH/PUT /admin/questions/1.json
   def update
-    respond_to do |format|
+    @question = Question.find(params[:id])
+    @quiz = Quiz.find(@question.quiz_id)
+   
       if @question.update(question_params)
-        format.html { redirect_to [:admin, @question], notice: 'Question was successfully updated.' }
-        format.json { head :no_content }
+        flash[:success] = "You updated the question '#{@question.title}' successfully."
+        redirect_to admin_quiz_question_path(params[:quiz_id], params[:id])
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @question.errors, status: :unprocessable_entity }
+        flash[:alert] = "The question was not updated. Please check the error messages."
+        render :edit
       end
-    end
+    
   end
 
   # DELETE /admin/questions/1
   # DELETE /admin/questions/1.json
   def destroy
-    @question.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_questions_url, notice: 'Question was successfully destroyed.' }
-      format.json { head :no_content }
+    question = Question.find(params[:id])
+    if question.destroy
+      flash[:success] = "You have deleted question '#{question.title}' successfully."
+      redirect_to admin_quiz_path(params[:quiz_id])
     end
   end
 
