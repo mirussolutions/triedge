@@ -1,4 +1,5 @@
 class Admin::VideosController < ApplicationController
+  load_and_authorize_resource
   before_action :set_video, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/videos
@@ -15,6 +16,8 @@ class Admin::VideosController < ApplicationController
   # GET /admin/videos/new
   def new
     @video = Video.new
+    @chapter = Chapter.find(params[:chapter_id])
+    @video.chapter_id = @chapter.id
   end
 
   # GET /admin/videos/1/edit
@@ -25,39 +28,39 @@ class Admin::VideosController < ApplicationController
   # POST /admin/videos.json
   def create
     @video = Video.new(video_params)
-
-    respond_to do |format|
-      if @video.save
-        format.html { redirect_to [:admin, @video], notice: 'Video was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @video }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @video.errors, status: :unprocessable_entity }
-      end
+    @video.chapter_id = params[:chapter_id]
+    @chapter = Chapter.find(@video.chapter_id)
+    if @video.save
+      flash[:success] = "You created a new video, '#{ @video.title }' for chapter #{ @video.chapter_id }."
+      redirect_to admin_chapter_path(@video.chapter_id)
+    else
+      flash[:alert] = "The video could not be created. Please check the error messages."
+      render :new
     end
+    
   end
 
   # PATCH/PUT /admin/videos/1
   # PATCH/PUT /admin/videos/1.json
   def update
-    respond_to do |format|
+    @video = Video.find(params[:id])
+    @chapter = Chapter.find(@video.chapter_id)
       if @video.update(video_params)
-        format.html { redirect_to [:admin, @video], notice: 'Video was successfully updated.' }
-        format.json { head :no_content }
+        flash[:success] = "You have updated video '#{@video.title}' successfully."
+        redirect_to admin_chapter_video_path(params[:chapter_id], params[:id])
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @video.errors, status: :unprocessable_entity }
+        flash[:alert] = "The video was not updated. Please check the error messages."
+        render :edit
       end
-    end
   end
 
   # DELETE /admin/videos/1
   # DELETE /admin/videos/1.json
   def destroy
-    @video.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_videos_url, notice: 'Video was successfully destroyed.' }
-      format.json { head :no_content }
+    video = Video.find(params[:id])
+    if @video.destroy
+      flash[:success] = "You have deleted video #{ video.title} successfully."
+      redirect_to admin_chapter_path(params[:chapter_id])
     end
   end
 

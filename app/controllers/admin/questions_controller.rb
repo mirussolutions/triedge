@@ -1,4 +1,5 @@
 class Admin::QuestionsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   # GET /admin/questions
