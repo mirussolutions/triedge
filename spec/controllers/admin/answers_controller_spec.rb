@@ -1,133 +1,119 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Admin::AnswersController do
   describe "GET #show" do
     before do
-      @quiz = Fabricate(:quiz)
-      @question = Fabricate(:question, quiz_id: @quiz.id)
-      @answer = Fabricate(:answer, question_id: @question.id)
+      @quiz = FactoryGirl.create(:quiz)
+      @question = FactoryGirl.create(:question, quiz_id: @quiz.id)
+      @answer = FactoryGirl.create(:answer, question_id: @question.id)
     end
-    it_behaves_like "requires sign in" do
+    it_behaves_like "sign in mandatory" do
       let(:action) { get :show, question_id: @question.id, id: @answer.id }
     end
-    it_behaves_like "requires admin" do
+    it_behaves_like "admin mandatory" do
       let(:action) { get :show, question_id: @question.id, id: @answer.id }
     end
-
-    context "with valid user" do
+    context "If user is loggedin as an admin" do
+      login_admin
       it "renders the :show template" do
-        set_current_admin
         get :show, question_id: @question.id, id: @answer.id
         expect(response).to render_template :show
       end
       it "returns an answer" do
-        set_current_admin
         get :show, question_id: @question.id, id: @answer.id
         expect(assigns(:answer)).to be_present
       end
       it "returns a answer for the question" do
-        set_current_admin
         get :show, question_id: @question.id, id: @answer.id
         expect(assigns(:answer).question_id).to eq(@answer.question_id)
       end
     end
-    context "with invalid user" do
-      it "redirects to the sign in page" do
-        get :show, question_id: @question.id, id: @answer.id
-        expect(response).to redirect_to sign_in_path
-      end
-    end
+    context "with invalid user logged in" do
+       it "redirects to the sign in page" do
+          get :show, question_id: @question.id, id: @answer.id
+          expect(response).to redirect_to new_user_session_path
+       end
+     end
   end
   describe "GET #new" do
     before do
-      @quiz = Fabricate(:quiz)
-      @question = Fabricate(:question, quiz_id: @quiz.id)
-      @answer = Fabricate(:answer, question_id: @question.id)
+      @quiz = FactoryGirl.create(:quiz)
+      @question = FactoryGirl.create(:question, quiz_id: @quiz.id)
+      @answer = FactoryGirl.create(:answer, question_id: @question.id)
     end
-    it_behaves_like "requires sign in" do
+    it_behaves_like "sign in mandatory" do
       let(:action) { get :new, question_id: @question.id }
     end
-    it_behaves_like "requires admin" do
+    it_behaves_like "admin mandatory" do
       let(:action) { get :new, question_id: @question.id }
     end
-
-    it "sets the answer to a new answer" do
-      set_current_admin
-      get :new, question_id: @question.id
-      expect(assigns(:answer)).to be_instance_of(Answer)
-      expect(assigns(:answer)).to be_new_record
+    context "If user is loggedin as an admin" do
+      login_admin
+      it "sets the answer to a new answer" do
+        get :new, question_id: @question.id
+        expect(assigns(:answer)).to be_instance_of(Answer)
+        expect(assigns(:answer)).to be_new_record
+      end
+      it "assigns a question to the answer" do
+        get :new, question_id: @question.id
+        expect(assigns(:answer).question_id).to eq(@question.id)
+      end
     end
-    it "assigns a question to the answer" do
-      set_current_admin
-      get :new, question_id: @question.id
-      expect(assigns(:answer).question_id).to eq(@question.id)
-    end
-    it "sets the flash error message for regular user" do
-      set_current_user
-      get :new, question_id: @question.id
-      expect(flash[:alert]).to be_present
+    context "If user is loggedin as a regular user" do
+      login_user
+      it "flashes an error message" do
+           expect{ get :new, question_id: @question.id }.to raise_error(CanCan::AccessDenied)
+        end
     end
   end
 
   describe "POST #create" do
     before do
-      @quiz = Fabricate(:quiz)
-      @question = Fabricate(:question, quiz_id: @quiz.id)
+      @quiz = FactoryGirl.create(:quiz)
+      @question = FactoryGirl.create(:question, quiz_id: @quiz.id)
     end
-    it_behaves_like "requires sign in" do
+    it_behaves_like "sign in mandatory" do
       let(:action) { post :create, question_id: @question.id }
     end
-    it_behaves_like "requires admin" do
+    it_behaves_like "admin mandatory" do
       let(:action) { post :create, question_id: @question.id }
     end
-
-    context "with valid input" do
+    context "with valid attributes" do
+      login_admin
       it "redirects to the question show page" do
-        set_current_admin
         post :create, question_id: @question.id, answer: { title: "David Heinemeier Hanson", is_correct: true }
         expect(response).to redirect_to admin_quiz_question_path(@quiz.id, @question.id)
       end
       it "creates a new answer" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "david heinemeier hanson", is_correct: true, feedback: "this is feedback" }
+        post :create, question_id: @question.id, answer: { title: "david heinemeier hanson", is_correct: true }
         expect(Answer.count).to eq(1)
       end
-      it "sets the feedback" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "David Heinemeier Hanson", is_correct: true, feedback: "this is feedback" }
-        expect(Answer.first.feedback).to eq("this is feedback") 
-      end
-      it "sets the flash success message" do
-        set_current_admin
+      it "flashes a success message" do
         post :create, question_id: @question.id, answer: { title: "David Heinemeier Hanson", is_correct: true }
         expect(flash[:success]).to be_present
       end
-      it "set the property is_correct" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "David Heinemeier Hanson", correct: true }
-        expect(assigns(:answer).correct?).to be_true
+      it "sets the property is_correct" do
+        post :create, question_id: @question.id, answer: { title: "David Heinemeier Hanson", is_correct: true }
+        expect(assigns(:answer).is_correct?).to be true
       end
     end
-    context "with invalid input" do
+   context "with invalid attributes" do
+      login_admin
       it "renders the :new template" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "", correct: true }
+        post :create, question_id: @question.id, answer: { title: "", is_correct: true }
         expect(response).to render_template :new
       end
-      it "does not create a new answer" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "", correct: true }
+      it "doesn't create a new answer" do
+        post :create, question_id: @question.id, answer: { title: "", is_correct: true }
         expect(Answer.count).to eq(0)
       end
       it "sets the @answer variable" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "", correct: true} 
+        post :create, question_id: @question.id, answer: { title: "", is_correct: true} 
         expect(assigns(:answer)).to be_present
 
       end
-      it "sets the flash error message" do
-        set_current_admin
-        post :create, question_id: @question.id, answer: { title: "", correct: true} 
+      it "flashes an error message" do
+        post :create, question_id: @question.id, answer: { title: "", is_correct: true} 
         expect(flash[:alert]).to be_present
       end
     end
@@ -135,57 +121,47 @@ describe Admin::AnswersController do
 
   describe "PUT #update" do
     before do
-      @quiz = Fabricate(:quiz)
-      @question = Fabricate(:question, quiz_id: @quiz.id)
-      @answer = Fabricate(:answer, question_id: @question.id)
+      @quiz = FactoryGirl.create(:quiz)
+      @question = FactoryGirl.create(:question, quiz_id: @quiz.id)
+      @answer = FactoryGirl.create(:answer, question_id: @question.id)
     end
-    it_behaves_like "requires sign in" do
+    it_behaves_like "sign in mandatory" do
       let(:action) { put :update, question_id: @question.id, id: @answer.id }
     end
-    it_behaves_like "requires admin" do
+    it_behaves_like "admin mandatory" do
       let(:action) { put :update, question_id: @question.id, id: @answer.id }
     end
-    context "with valid input" do
+    context "with valid attributes" do
+      login_admin
       it "redirects to the answer show page" do
-        set_current_admin
-        put :update, question_id: @question.id, id: @answer.id, answer: { title: "new title", is_correct: true }
+        put :update, question_id: @question.id, id: @answer.id, answer: { title: "title new", is_correct: true }
         expect(response).to redirect_to admin_question_answer_path(@question.id, @answer.id)
       end
       it "updates the answer" do
-        set_current_admin
-        put :update, question_id: @question.id, id: @answer.id, answer: { title: "new title", is_correct: true, feedback: "this is feedback" }
-        expect(assigns(:answer).title).to eq("new title")
+        put :update, question_id: @question.id, id: @answer.id, answer: { title: "title new", is_correct: true }
+        expect(assigns(:answer).title).to eq("title new")
       end
-      it "updates the answer's feedback" do
-        set_current_admin
-        put :update, question_id: @question.id, id: @answer.id, answer: { title: "new title", is_correct: true, feedback: "this is feedback" }
-        expect(assigns(:answer).feedback).to eq("this is feedback")
-      end
-      it "sets the flash success message" do
-        set_current_admin
-        put :update, question_id: @question.id, id: @answer.id, answer: { title: "new title", is_correct: true }
+      it "flashes a success message" do
+        put :update, question_id: @question.id, id: @answer.id, answer: { title: "title new", is_correct: true }
         expect(flash[:success]).to be_present
       end
     end
-    context "with invalid input" do
+    context "with invalid attributes" do
+      login_admin
       it "renders the :edit template" do
-        set_current_admin
         put :update, question_id: @question.id, id: @answer.id, answer: { title: "", correct: true }
         expect(response).to render_template :edit
       end
-      it "does not update the answer" do
-        set_current_admin
+      it "doesn't update the answer" do
         put :update, question_id: @question.id, id: @answer.id, answer: { title: "", correct: true }
         @answer.reload
         expect(@answer.title).not_to eq("")
       end
-      it "sets a flash error message" do
-        set_current_admin
+      it "flashes an error message" do
         put :update, question_id: @question.id, id: @answer.id, answer: { title: "", correct: true }
         expect(flash[:alert]).to be_present
       end
       it "sets the @answer" do
-        set_current_admin
         put :update, question_id: @question.id, id: @answer.id, answer: { title: "", correct: true }
         expect(assigns(:answer)).to be_present
       end
@@ -193,29 +169,29 @@ describe Admin::AnswersController do
   end
   describe "DELETE #destroy" do
     before do
-      @question = Fabricate(:question)
-      @answer = Fabricate(:answer, question_id: @question.id)
+      @question = FactoryGirl.create(:question)
+      @answer = FactoryGirl.create(:answer, question_id: @question.id)
     end
-    it_behaves_like "requires sign in" do
+    it_behaves_like "sign in mandatory" do
       let(:action) { delete :destroy, question_id: @question.id, id: @answer.id }
     end
-    it_behaves_like "requires admin" do
+    it_behaves_like "admin mandatory" do
       let(:action) { delete :destroy, question_id: @question.id, id: @answer.id }
     end
-    it "redirects to the question show page" do
-      set_current_admin
-      delete :destroy, question_id: @question.id, id: @answer.id
-      expect(response).to redirect_to admin_question_path(@question.id)
-    end
-    it "deletes the answer" do
-      set_current_admin
-      delete :destroy, question_id: @question.id, id: @answer.id
-      expect(@question.answers.count).to eq(0)
-    end
-    it "sets the flash success message" do
-      set_current_admin
-      delete :destroy, question_id: @question.id, id: @answer.id
-      expect(flash[:success]).to be_present
+    context "If user is loggedin as an admin" do
+      login_admin
+      it "redirects to the question show page" do
+        delete :destroy, question_id: @question.id, id: @answer.id
+        expect(response).to redirect_to admin_question_path(@question.id)
+      end
+      it "deletes the answer" do
+        delete :destroy, question_id: @question.id, id: @answer.id
+        expect(@question.answers.count).to eq(0)
+      end
+      it "flashes a success message" do
+        delete :destroy, question_id: @question.id, id: @answer.id
+        expect(flash[:success]).to be_present
+      end
     end
   end
 end
