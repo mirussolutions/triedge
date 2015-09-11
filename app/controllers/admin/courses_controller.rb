@@ -2,6 +2,7 @@ class Admin::CoursesController < ApplicationController
   load_and_authorize_resource :class => Course, :instance_name => "course"
   # GET /courses
   # GET /courses.json
+  layout 'admin'
   def index
     @courses = Course.all
   end
