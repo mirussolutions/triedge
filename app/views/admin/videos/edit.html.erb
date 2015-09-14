@@ -1,6 +1,58 @@
-<h1>Editing video</h1>
+<div class="row">
+   <div class="col-md-8">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', admin_dashboard_path %></li>
+         <li> <%= link_to 'Courses', admin_chapters_path %></li>
+         <li> <%= link_to @chapter.course.title, admin_course_path(@chapter.course_id) %></li>
+         <li> <%= link_to @chapter.title, admin_chapter_path(@chapter.id) %></li>
+           <li class="active">Edit Video</li>
+    </ul>
+   </div>
+   </div>  
 
-<%= render 'form' %>
+  <div class="row">
+   <div class="col-md-8">
+      <h1>Edit Video</h1>
+  <div class="panel panel-default">
+  <div class="panel-body">
+      <%= form_for([:admin, @chapter, @video], html: { class: "form-horizontal" }) do |f| %>
+     <% if @video.errors.any? %>
+    <div class="alert alert-warning">
 
-<%= link_to 'Show', [:admin, @video] %> |
-<%= link_to 'Back', admin_videos_path %>
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Warning!</strong>
+         <% @video.errors.full_messages.each do |message| %>
+         <li><%= message %></li>
+         <% end %>
+    </div>
+     <% end %>
+
+     <div class="form-group">
+        <label for="title" class="col-sm-2 control-label">Video Title</label>
+      <div class="col-sm-10">
+        <%= f.text_field :title, :class=>"form-control", :id=>"title"  %>
+      </div>
+     </div>
+     <div class="form-group">
+      <label for="description" class="col-sm-2 control-label">Description</label>
+      <div class="col-sm-10">
+        <%= f.text_area :description, :class=>"form-control", :id=>"description"  %>
+      </div>
+     </div>
+     <div class="form-group">
+      <label for="video-url" class="col-sm-2 control-label">Video URL</label>
+      <div class="col-sm-10">
+        <%= f.text_field :video_url, :class=>"form-control", :id=>"video-url"  %>
+      </div>
+     </div>
+      <div class="form-group">
+      <div class="col-sm-10">
+        <%= f.submit 'Update Video', :class=>"btn btn-success btn-lg" %>
+      </div>
+      </div>
+    <% end %>
+  </div>
+  </div>
+  </div>
+</div>
+</div>

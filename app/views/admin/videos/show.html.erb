@@ -1,24 +1,33 @@
 <p id="notice"><%= notice %></p>
+<div class="row">
+   <div class="col-md-8">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', admin_dashboard_path %></li>
+        <li> <%= link_to 'Courses', admin_courses_path %></li>
+        <li> <%= link_to @chapter.course.title, admin_course_path(@chapter.course_id) %></li>
+        <li> <%= link_to @chapter.title, admin_chapter_path(@chapter.id) %></li>
+           <li class="active"><%= @video.title %> </li>
+           
+    </ul>
+   </div>
+   </div>
+ <div class="row">
+   <div class="col-md-8">
+		<p>
+		 <h1><%= @video.title %></h1>
+		</p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @video.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @video.description %>
-</p>
-
-<p>
-  <strong>Video url:</strong>
-  <%= @video.video_url %>
-</p>
-
-<p>
-  <strong>Chapter:</strong>
-  <%= @video.chapter_id %>
-</p>
-
-<%= link_to 'Edit', edit_admin_video_path(@video) %> |
-<%= link_to 'Back', admin_videos_path %>
+		<p>
+		  <strong>Description:</strong>
+		  <%= @video.description %>
+		</p>
+		<p>
+		<strong>Video URL:</strong>
+		  <%= @video.video_url %>
+		</p>
+	 </div>
+<div class="col-md-4">
+<%= link_to "Edit Video", edit_admin_chapter_video_path(@video.chapter_id, @video.id), class: "btn btn-success" %> 
+<%= link_to "Delete Video", admin_chapter_video_path(@video.chapter_id, @video.id), class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure to delete this video #{@video.title}?" } %>
+</div>
+</div>

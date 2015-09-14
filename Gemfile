@@ -72,3 +72,7 @@ gem 'rails-admin-scaffold'
 gem 'devise'
 gem 'cancancan'
 gem 'rolify'
+
+# For Uploading Images
+gem 'carrierwave'
+gem 'mini_magick'

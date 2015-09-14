@@ -1,16 +1,13 @@
 class Admin::VideosController < ApplicationController
   load_and_authorize_resource
   before_action :set_video, only: [:show, :edit, :update, :destroy]
-
-  # GET /admin/videos
-  # GET /admin/videos.json
-  def index
-    @videos = Video.all
-  end
-
+  layout 'admin'
+  
   # GET /admin/videos/1
   # GET /admin/videos/1.json
   def show
+    @video = Video.find(params[:id])
+    @chapter = Chapter.find(@video.chapter_id)
   end
 
   # GET /admin/videos/new
@@ -22,6 +19,8 @@ class Admin::VideosController < ApplicationController
 
   # GET /admin/videos/1/edit
   def edit
+    @chapter = Chapter.find(params[:chapter_id])
+    @video.chapter_id = @chapter.id
   end
 
   # POST /admin/videos

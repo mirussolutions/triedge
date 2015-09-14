@@ -1,7 +1,7 @@
 class Admin::AnswersController < ApplicationController
   load_and_authorize_resource
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
-
+  layout 'admin'
   # GET /admin/answers
   # GET /admin/answers.json
   def index

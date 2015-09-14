@@ -1,14 +1,26 @@
 <p id="notice"><%= notice %></p>
+<div class="row">
+   <div class="col-md-8">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', admin_dashboard_path %></li>
+        <li> <%= link_to 'Courses', admin_courses_path %></li>
+        <li> <%= link_to @chapter.course.title, admin_course_path(@chapter.course_id) %></li>
+        <li> <%= link_to @chapter.title, admin_chapter_path(@chapter.id) %></li>
+           <li class="active"><%= @quiz.title %> </li>
+           
+    </ul>
+   </div>
+   </div>
+ <div class="row">
+   <div class="col-md-8">
+		<p>
+		 <h1><%= @quiz.title %></h1>
+		</p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @quiz.title %>
-</p>
-
-<p>
-  <strong>Chapter:</strong>
-  <%= @quiz.chapter_id %>
-</p>
-
-<%= link_to 'Edit', edit_admin_quiz_path(@quiz) %> |
-<%= link_to 'Back', admin_quizzes_path %>
+		
+	 </div>
+<div class="col-md-4">
+<%= link_to "Edit Quiz", edit_admin_chapter_quiz_path(@quiz.chapter_id, @quiz.id), class: "btn btn-success" %> 
+<%= link_to "Delete Quiz", admin_chapter_quiz_path(@quiz.chapter_id, @quiz.id), class: "btn btn-danger", method: :delete, data: { confirm: "This will also delete all the questions and answers. Do you want to proceed?" } %>
+</div>
+</div>
