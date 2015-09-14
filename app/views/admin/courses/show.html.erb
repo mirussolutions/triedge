@@ -1,14 +1,62 @@
 <p id="notice"><%= notice %></p>
+<div class="row">
+   <div class="col-md-8">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', admin_dashboard_path %></li>
+        <li> <%= link_to 'Courses', admin_courses_path %></li>
+           <li class="active"><%= @course.title %> </li>
+           
+    </ul>
+   </div>
+   </div>
+ <div class="row">
+   <div class="col-md-8">
+		<p>
+		 <h1><%= @course.title %></h1>
+		</p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @course.title %>
-</p>
+		<p>
+		  <strong>Description:</strong>
+		  <%= @course.description %>
+		</p>
+		<p>
+		<%= image_tag @course.image.url(:thumb), class: 'th' if @course.image? %>
+		</p>
+	 </div>
+<div class="col-md-4">
+<%= link_to "Edit Course", edit_admin_course_path(@course.id), class: "btn btn-success" %> 
+<%= link_to "Delete Course", admin_course_path(@course.id), class: "btn btn-danger", method: :delete, data: { confirm: "This will also delete all chapters. Do you want to proceed?" } %>
+</div>
+</div>
+<div class="row">
+   <div class="col-md-8">
+	 <h3>Chapters</h3>
+		
+		<div class="panel panel-default">
+		  <div class="panel-body">
+		  <% if @course.chapters.count != 0 %>
+		    <table>
+			  <thead>
+			    <tr>
+			      <th>Title</th>
+			      </tr>
+			  </thead>
 
-<p>
-  <strong>Description:</strong>
-  <%= @course.description %>
-</p>
-
-<%= link_to 'Edit', edit_admin_course_path(@course) %> |
-<%= link_to 'Back', admin_courses_path %>
+			  <tbody>
+			    <% @course.chapters.each do |chapter| %>
+			      <tr>
+			        <td><%= link_to chapter.title, admin_course_chapter_path(@course.id, chapter.id) %></td>
+			       </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		  <% else %>
+		  <p><%= @course.title %> has no chapters.</p>
+		  <% end %>
+		  </div>
+		</div>
+	 </div>
+<div class="col-md-4" style="margin-top:60px;">
+<%= link_to "Add Chapter", new_admin_course_chapter_path(@course.id), class: "btn btn-success" %> 
+</div>
+</div>

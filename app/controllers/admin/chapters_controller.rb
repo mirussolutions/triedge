@@ -1,7 +1,7 @@
 class Admin::ChaptersController < ApplicationController
   load_and_authorize_resource 
   before_action :set_chapter, only: [:show, :edit, :update, :destroy]
-
+  layout 'admin'
   # GET /admin/chapters
   # GET /admin/chapters.json
   def index
@@ -74,6 +74,6 @@ class Admin::ChaptersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def chapter_params
-      params.require(:chapter).permit(:title, :description, :course_id)
+      params.require(:chapter).permit(:title, :description, :course_id, :tagline, :badge_image)
     end
 end
