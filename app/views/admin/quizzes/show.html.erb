@@ -24,3 +24,35 @@
 <%= link_to "Delete Quiz", admin_chapter_quiz_path(@quiz.chapter_id, @quiz.id), class: "btn btn-danger", method: :delete, data: { confirm: "This will also delete all the questions and answers. Do you want to proceed?" } %>
 </div>
 </div>
+<div class="row">
+   <div class="col-md-8">
+	 <h3>Questions</h3>
+		
+		<div class="panel panel-default">
+		  <div class="panel-body">
+		  <% if @quiz.questions.count !=0 %>
+		    <table>
+			  <thead>
+			    <tr>
+			      <th>Question Title</th>
+			      </tr>
+			  </thead>
+
+			  <tbody>
+			    <% @quiz.questions.each do |question| %>
+			      <tr>
+			        <td><%= link_to question.title, admin_quiz_question_path(@quiz.id, question.id) %></td>
+			       </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		  <% else %>
+		  <p><%= @quiz.title %> has no questions.</p>
+		  <% end %>
+		  </div>
+		</div>
+	 </div>
+<div class="col-md-4" style="margin-top:60px;">
+<%= link_to "Add Question", new_admin_quiz_question_path(@quiz.id), class: "btn btn-success" %> 
+</div>
+</div>

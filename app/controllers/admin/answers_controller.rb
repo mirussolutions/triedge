@@ -14,6 +14,7 @@ class Admin::AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     @question = Question.find(params[:question_id])
     @quiz = Quiz.find(@question.quiz_id)
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # GET /admin/answers/new
@@ -22,10 +23,15 @@ class Admin::AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @quiz = Quiz.find(@question.quiz_id)
     @answer.question_id = @question.id
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # GET /admin/answers/1/edit
   def edit
+     @question = Question.find(params[:question_id])
+    @quiz = Quiz.find(@question.quiz_id)
+    @answer.question_id = @question.id
+    @chapter = Chapter.find(@quiz.chapter_id)
   end
 
   # POST /admin/answers
