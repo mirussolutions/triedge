@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   root to: "page#home"
+  get 'subscribe', to: "page#subscription"
   devise_for :users
   namespace :admin do
     get 'dashboard', to: 'dashboard#index'

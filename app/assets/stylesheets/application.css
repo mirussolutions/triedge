@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
-body{
+body.admin{
 	margin-top: 70px;
 }
 
@@ -31,3 +31,30 @@ body{
   background-color: #f5f5f5;
 }
 
+.lead {
+	max-width: 1100px;
+	font-style:italic;
+	color: #777;
+	letter-spacing: -.02rem;
+	margin: -40px auto 0;
+	text-align: center;
+	font-size:24px;
+	font-family: 'Lora', serif;
+	line-height: 40px;
+}
+
+.homeb {
+	max-width: 1100px;
+	font-style:italic;
+	color: #fff;
+	font-size:18px;
+	font-family: 'Lora', serif;
+}
+.colour {
+    color: #c52d2f !important;
+}
+#panel {
+   
+     padding-left: 10px;
+     padding-top: 10px;
+}
