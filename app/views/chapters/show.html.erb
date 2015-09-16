@@ -1,0 +1,97 @@
+ <section id="middle">
+  <div class="container">
+  <div class="row">
+   <div class="col-md-12">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', root_path %></li>
+        <li> <%= link_to 'Courses', courses_path %></li>
+        <li> <%= link_to @chapter.course.title, course_path(@chapter.course_id) %></li>
+           <li class="active"><%= @chapter.title %> </li>
+           
+    </ul>
+   </div>
+   </div>
+     <div class="row">
+          <div class="col-md-7">
+	           <h2><%= @chapter.title  %></h2>
+	         </div>
+	      </div>
+	       <div class="row">
+	     <div class="col-sm-8">
+			  <div class="panel panel-default" style="padding:30px;">
+			  <% if @chapter.videos != [] %>
+			    <% if @video %>
+			      <script>jwplayer.key="3tLHu+2P3LnFoLbNdr+S1haVowhfhU6aayxMaQ==";</script>
+				
+				<div id="myElement">Loading the player...</div>
+					<script type="text/javascript">
+					var playerInstance = jwplayer("myElement");
+					playerInstance.setup({
+					file: "http://www.youtube.com/watch?v=<%= @video.video_url %>&vq=hd720",
+					height: 370,
+					autostart: true,
+					width: "100%"
+					});
+					jwplayer().onPlay(function() { jwplayer().setCurrentQuality(2); });
+				  </script>
+			    <% else %>
+			    <script>jwplayer.key="3tLHu+2P3LnFoLbNdr+S1haVowhfhU6aayxMaQ==";</script>
+			    <div id="myElement">Loading the player...</div>
+					<script type="text/javascript">
+					var playerInstance = jwplayer("myElement");
+					playerInstance.setup({
+					file: "http://www.youtube.com/watch?v=<%= @chapter.videos.first.video_url %>&vq=hd720",
+					height: 370,
+					autostart: true,
+					width: "100%"
+					});
+					jwplayer().onPlay(function() { jwplayer().setCurrentQuality(2); });
+				  </script>
+				 <% end %>
+				 <% if @video %>
+				 <p><%= @video.description %></p>
+				 <% else %>
+				 <p><h3><%= @chapter.videos.first.title %></h3></p>
+                 <p><%= @chapter.videos.first.description %></p>
+				 <% end %>
+			    <% else %>
+                 <p> <%= @chapter.title %>does not have a any video.</p>
+			  <% end %>
+		      </div>
+
+		  </div>
+		  <div class="col-md-4">
+		        <div class="panel panel-default" style="padding:20px;">
+	           <p><%= image_tag @chapter.badge_image.url(:thumb), class: 'th' if @chapter.badge_image? %>
+	           </p>
+	           <p>
+				 <h2><%= @chapter.title %></h2>
+				</p>
+				<p align="justify">
+				  <strong>Description:</strong>
+				  <%= @chapter.description %>
+				</p>
+	           </div>
+	         </div>
+	  </div>
+	  <div class="row">
+		  <div class="col-md-4">
+		 <% if @chapter.videos.count != 0 %>
+		    <table>
+			   <tbody>
+			    <% @chapter.videos.each do |video| %>
+			      <tr>
+			        <td><i class="fa fa-play-circle"> <%= link_to video.title, chapter_video_path(@chapter.id, video.id) %></td>
+			              </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+		  <% else %>
+		  <p><%= @chapter.title %> has no videos.</p>
+		  <% end %>
+		  </div>
+	  </div>
+ </div>
+ </section>
+
+

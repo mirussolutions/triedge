@@ -48,7 +48,7 @@ body.admin{
 	font-style:italic;
 	color: #fff;
 	font-size:18px;
-	font-family: 'Lora', serif;
+	
 }
 .colour {
     color: #c52d2f !important;
@@ -58,3 +58,7 @@ body.admin{
      padding-left: 10px;
      padding-top: 10px;
 }
+
+.btn.btn-success.btn-large.listing{
+	margin-bottom: 10px;
+	}
