@@ -1,8 +1,21 @@
 Rails.application.routes.draw do
-
+ 
   root to: "page#home"
-  get 'subscribe', to: "page#subscription"
   devise_for :users
+  ################################
+  ###### General User Routes #####
+  ################################
+  get 'subscribe', to: "page#subscription"
+  
+  resources :courses, only: [:index, :show] do
+    resources :chapters, only: [:show]
+  end
+  resources :chapters, only: [:show] do
+    resources :videos, only: [:show]
+  end
+  ################################
+  ########## Admin Routes ########
+  ################################
   namespace :admin do
     get 'dashboard', to: 'dashboard#index'
     resources :answers
