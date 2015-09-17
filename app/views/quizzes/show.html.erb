@@ -1,0 +1,50 @@
+<section id="middle">
+ <div class="container">
+<div class="row">
+   <div class="col-md-12">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', root_path %></li>
+        <li> <%= link_to 'Courses', courses_path %></li>
+        <li> <%= link_to @chapter.course.title, course_path(@chapter.course_id) %></li>
+        <li> <%= link_to @chapter.title, chapter_path(@chapter.id) %></li>
+           <li class="active"><%= @quiz.title %> </li>
+           
+    </ul>
+   </div>
+   </div>
+<div class="row">
+   <div class="col-md-8">
+	 <h1 class="title"><%= @quiz.title %></h1>
+		
+		<div class="panel panel-default">
+		  <div class="panel-body">
+
+		   <h2><%= @question.title %> </h2>
+		  <% if @question.answers != [] %>
+		  <%= form_tag update_answer_path, method: :post, html: { class: "form-horizontal"} do %>
+		  <% @question.answers.each do |answer| %>
+          <div class="radio">
+           <label>
+           <%= radio_button_tag :id, answer.id, false %><%= answer.title %>
+           </label>
+          </div>
+
+          <% end %>
+           <%= submit_tag "Answer Question", class: "btn btn-info" %>
+          <% end %>
+
+		  <% else %>
+		  <p><%= @question.title %> has no answers.</p>
+		  <% end %>
+		  </div>
+		</div>
+	 </div>
+<div class="col-md-4" style="margin-top:60px;">
+<%= link_to "Add Question", new_admin_quiz_question_path(@quiz.id), class: "btn btn-success" %> 
+</div>
+</div>
+
+
+
+</div>
+</section>

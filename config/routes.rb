@@ -6,12 +6,19 @@ Rails.application.routes.draw do
   ###### General User Routes #####
   ################################
   get 'subscribe', to: "page#subscription"
+  get 'quizzes/:id/question/:question_id', controller: 'quizzes', action: 'show', as: 'show_question'
+  get 'quizzes/:id/quiz_complete', controller: 'quizzes', action: 'complete', as: 'quiz_complete'
+  post 'update_answer', to: 'answers#update'  
   
   resources :courses, only: [:index, :show] do
     resources :chapters, only: [:show]
   end
   resources :chapters, only: [:show] do
     resources :videos, only: [:show]
+    resources :quizzes, only: [:show, :complete]
+  end
+  resources :quizzes, only: [:show] do
+    resources :questions, only:[:show, :update]
   end
   ################################
   ########## Admin Routes ########

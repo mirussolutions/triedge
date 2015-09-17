@@ -90,6 +90,13 @@
 		  <p><%= @chapter.title %> has no videos.</p>
 		  <% end %>
 		  </div>
+		  </div>
+		 <div class="row">
+		  <div class="col-md-4">
+		  
+		  <%= link_to "Take quiz", chapter_quiz_path(@chapter.id, @chapter.quiz.id), class: "btn btn-primary" %>
+		 
+		  </div>
 	  </div>
  </div>
  </section>

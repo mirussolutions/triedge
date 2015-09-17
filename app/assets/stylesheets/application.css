@@ -62,3 +62,24 @@ body.admin{
 .btn.btn-success.btn-large.listing{
 	margin-bottom: 10px;
 	}
+
+h1.title{
+	color: #000;
+}
+
+.wrong {
+	font-style:italic;
+	color: #ff0000;
+	letter-spacing: -.02rem;
+	font-size:24px;
+	font-family: 'Lora', serif;
+	
+}
+.right {
+	font-style:italic;
+	color: #458b00;
+	letter-spacing: -.02rem;
+	font-size:24px;
+	font-family: 'Lora', serif;
+	
+}
