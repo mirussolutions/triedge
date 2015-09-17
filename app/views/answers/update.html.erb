@@ -1,0 +1,40 @@
+<section id="middle">
+ <div class="container">
+<div class="row">
+   <div class="col-md-12">
+     <ul class="breadcrumb">
+     <li> <%= link_to 'Home', root_path %></li>
+        <li> <%= link_to 'Courses', courses_path %></li>
+        <li> <%= link_to @chapter.course.title, course_path(@chapter.course_id) %></li>
+        <li> <%= link_to @chapter.title, chapter_path(@chapter.id) %></li>
+           <li class="active"><%= @quiz.title %> </li>
+           
+    </ul>
+   </div>
+   </div>
+<div class="row">
+   <div class="col-md-8">
+	 <h1 class="title"><%= @quiz.title %></h1>
+		
+		<div class="panel panel-default">
+		  <div class="panel-body">
+
+		   <h2><%= @question.title %> </h2>
+		  <% if @answer.is_correct? %>
+		  <span class="right">Correct <!--<i class="fa fa-check"> --></span>
+		  <% else %>
+		 <span class="wrong">Wrong <!-- <i class="fa fa-close"> --></span>
+		  <% end %>
+		  <p style="margin-top:10px;"><%= link_to "Continue", quiz_question_path(@quiz.id, @question.id), class: "btn btn-info" %></p>
+		  </div>
+		</div>
+	 </div>
+<div class="col-md-4" style="margin-top:60px;">
+<%= link_to "Add Question", new_admin_quiz_question_path(@quiz.id), class: "btn btn-success" %> 
+</div>
+</div>
+
+
+
+</div>
+</section>

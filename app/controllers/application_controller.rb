@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 	    admin_dashboard_path
 	  else
 	    #user_path(current_user)
-	    root_path
+	    courses_path
 	  end
   end
 end
