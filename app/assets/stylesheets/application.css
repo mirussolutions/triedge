@@ -14,7 +14,7 @@
  *= require_self
  */
 body.admin{
-	margin-top: 70px;
+	margin-top: 120px;
 }
 
 .field_with_errors {
@@ -82,4 +82,11 @@ h1.title{
 	font-size:24px;
 	font-family: 'Lora', serif;
 	
+}
+
+.panel-quiz {
+   
+      
+      border: 1px solid blue;
+      padding: 20px;
 }

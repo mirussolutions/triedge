@@ -1,4 +1,4 @@
-<body class="admin"> <!-- Fixed navbar -->
+ <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -18,14 +18,14 @@
           <ul class="nav navbar-nav navbar-right">
          
            <% if user_signed_in? %>
-            <li>
-            <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
-            </li>
-          <% else %>
-            <li>
-            <%= link_to('Login', new_user_session_path)  %>  
-            </li>
-          <% end %></li>
+                    <p>Welcome, <i class="fa fa-user"></i>  <%= current_user.name %> 
+                    <%= link_to('Logout', destroy_user_session_path, :method => :delete, :class=>"btn btn-danger", :role=>"button") %>        
+                    </p>
+                  <% else %>
+                    <p>
+                    <%= link_to('Login', new_user_session_path, :class=>"btn btn-info", :role=>"button")  %>  
+                   </p>
+                  <% end %></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
