@@ -18,7 +18,7 @@
                     <div class="col-sm-6 col-xs-4">
                         <div class="top-number">
 				           <% if user_signed_in? %>
-				            <p>Welcome, <i class="fa fa-user"></i>  +0123 456 70 90  
+				            <p>Welcome, <i class="fa fa-user"></i>  <%= current_user.name %> 
 				            <%= link_to('Logout', destroy_user_session_path, :method => :delete, :class=>"btn btn-danger", :role=>"button") %>        
 				            </p>
 				          <% else %>
