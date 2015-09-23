@@ -4,7 +4,7 @@
    
     set :application, 'triedge'
     set :repo_url, 'git@github.com:mirussolutions/triedge.git'
-    set :deploy_to, '/home/mirus/webapps/trainingapp'
+    set :deploy_to, '/home/mirus/webapps/trainingapp2'
    
 	set :use_sudo, false
 	set :deploy_via, :checkout
@@ -21,25 +21,55 @@
 	
     set :pty, true
     
-    #set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/application.yml', 'config/secrets.yml')
+    set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
     
-    set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+    set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets')
     
-    set :tmp_dir, "#{deploy_to}/tmp"
-    set :default_env, {'PATH' => "#{deploy_to}/bin:$PATH",'GEM_HOME' => "#{deploy_to}/gems"}
+    set :tmp_dir, '/home/mirus/tmp'
+    #set :ssh_options, { forward_agent: true, paranoid: true, keys: "~/.ssh/id_rsa" }
+    #set :tmp_dir, "#{deploy_to}/tmp"
+    #set :default_env, {'PATH' => "#{deploy_to}/bin:$PATH",'GEM_HOME' => "#{deploy_to}/gems"}
     
-    namespace :deploy do
-      task :restart do
-        on roles(:app) do
-          capture("#{deploy_to}/bin/restart")
-        end
-      end
-    end
+    #set :passenger_instance_registry_dir, '/home/mirus/webapps/trainingapp/tmp'
     
-    namespace :deploy do
 
-	  task :config_symlink do
-	    run "cp #{shared_path}/../../shared/database.yml #{release_path}/config/database.yml"
+   # namespace :deploy do
+     # task :restart do
+     #   on roles(:app) do
+          #execute "passenger-config restart-app --ignore-app-not-running #{deploy_to}"
+      #    execute "/home/mirus/webapps/trainingapp/bin/restart"
+      #  end
+     ## end
+  #  end
+  namespace :deploy do
+	desc 'Restart application'
+	  task :restart do
+	    on roles(:app), in: :sequence, wait: 5 do
+	    	capture("#{deploy_to}/bin/restart")
+	      #execute "passenger-config restart-app --ignore-app-not-running #{deploy_to}"
 	  end
 	end
+  end
+    set :config_dirs, %W{config config/environments/#{fetch(:stage)} public/uploads}
+    set :config_files, %w{config/database.yml config/secrets.yml}
+    namespace :deploy do
+	  desc 'Copy files from application to shared directory'
+	  ## copy the files to the shared directories
+	  task :copy_config_files do
+	    on roles(:app) do
+	      # create dirs
+	      fetch(:config_dirs).each do |dirname|
+	        path = File.join shared_path, dirname
+	        execute "mkdir -p #{path}"
+	      end
+
+	      # copy config files
+	      fetch(:config_files).each do |filename|
+	        remote_path = File.join shared_path, filename
+	        upload! filename, remote_path
+	      end
+
+	     end
+       end
+      end
     after 'deploy:finishing', 'deploy:restart'

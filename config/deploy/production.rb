@@ -1,5 +1,5 @@
-set :stage, :production
+#server "mirus@web300.webfaction.com", user: "mirus", roles: %w{web app db}, ssh_options: {
+#keys: %w(~/.ssh/id_rsa),
+#forward_agent: true }
 
-role :app, %w{mirus@mirus.webfactional.com}
-role :web, %w{mirus@mirus.webfactional.com}
-role :db,  %w{mirus@mirus.webfactional.com}
+server "mirus@web300.webfaction.com", user: "mirus", roles: %w{web app db}

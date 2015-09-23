@@ -4,7 +4,9 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 # Use mysql as the database for Active Record
-gem 'mysql2'
+group :development, :test, :production do
+ gem 'mysql2'
+end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -80,5 +82,5 @@ gem 'mini_magick'
 # for deployment
 group :development do
   gem 'capistrano-rails'
-  gem 'capistrano-passenger'
+  gem 'capistrano-passenger', '~> 0.0.2'
 end
