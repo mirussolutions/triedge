@@ -59,3 +59,7 @@
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+role :app, %w{mirus@web300.webfaction.com}
+role :web, %w{mirus@web300.webfaction.com}
+role :db,  %w{mirus@web300.webfaction.com}

@@ -14,9 +14,9 @@ default: &default
   encoding: utf8
   pool: 5
   username: triedgesol
-  password:
-  socket: /opt/lampp/var/mysql/mysql.sock
- # socket: /var/lib/mysql/mysql.sock
+  password: triedge2015
+  #socket: /opt/lampp/var/mysql/mysql.sock
+  socket: /var/lib/mysql/mysql.sock
 
 development:
   <<: *default
@@ -53,4 +53,4 @@ production:
   host: mirus.webfactional.com
   database: trainingapp
   username: triedgesol
-  password: <%= ENV['TRAININGAPP_DATABASE_PASSWORD'] %>
+  password: triedge2015

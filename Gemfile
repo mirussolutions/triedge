@@ -80,5 +80,5 @@ gem 'mini_magick'
 # for deployment
 group :development do
   gem 'capistrano-rails'
-  gem 'capistrano-passenger'
+  gem 'capistrano-passenger', '~> 0.0.2'
 end
