@@ -4,7 +4,7 @@
    
     set :application, 'triedge'
     set :repo_url, 'git@github.com:mirussolutions/triedge.git'
-    set :deploy_to, '/home/mirus/webapps/trainingapp'
+    set :deploy_to, '/home/mirus/webapps/trainingapp2'
    
 	set :use_sudo, false
 	set :deploy_via, :checkout
@@ -23,10 +23,10 @@
     
     set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
     
-    set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+    set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets')
     
     set :tmp_dir, '/home/mirus/tmp'
-    set :ssh_options, { forward_agent: true, paranoid: true, keys: "~/.ssh/id_rsa" }
+    #set :ssh_options, { forward_agent: true, paranoid: true, keys: "~/.ssh/id_rsa" }
     #set :tmp_dir, "#{deploy_to}/tmp"
     #set :default_env, {'PATH' => "#{deploy_to}/bin:$PATH",'GEM_HOME' => "#{deploy_to}/gems"}
     
@@ -45,7 +45,8 @@
 	desc 'Restart application'
 	  task :restart do
 	    on roles(:app), in: :sequence, wait: 5 do
-	      execute "passenger-config restart-app --ignore-app-not-running #{deploy_to}"
+	    	capture("#{deploy_to}/bin/restart")
+	      #execute "passenger-config restart-app --ignore-app-not-running #{deploy_to}"
 	  end
 	end
   end
