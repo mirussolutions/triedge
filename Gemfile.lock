@@ -253,7 +253,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   mini_magick
-  mysql2
+  mysql2 (~> 0.3.18)
   pry
   pry-rails
   rails (= 4.2.0)
