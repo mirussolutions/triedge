@@ -84,3 +84,7 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-passenger', '~> 0.0.2'
 end
+
+gem 'execjs'
+
+gem 'therubyracer'
