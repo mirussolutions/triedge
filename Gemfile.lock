@@ -246,6 +246,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   cancancan
+  capistrano-bundler
   capistrano-passenger (~> 0.0.2)
   capistrano-rails
   capybara

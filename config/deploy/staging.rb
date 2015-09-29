@@ -63,3 +63,5 @@
 role :app, %w{mirus@web300.webfaction.com}
 role :web, %w{mirus@web300.webfaction.com}
 role :db,  %w{mirus@web300.webfaction.com}
+
+server "mirus@web300.webfaction.com", user: "mirus", roles: %w{web app db}

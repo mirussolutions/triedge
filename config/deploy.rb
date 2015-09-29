@@ -4,12 +4,12 @@
    
     set :application, 'triedge'
     set :repo_url, 'git@github.com:mirussolutions/triedge.git'
-    set :deploy_to, '/home/mirus/webapps/trainingapp2'
-   
+    set :deploy_to, '/home/mirus/webapps/trainingapp'
+    
 	set :use_sudo, false
-	set :deploy_via, :checkout
+	set :deploy_via, :copy
 	set :branch, "master"
-
+    set :default_stage, "production"
 	set :default_env, {
 	    'PATH' => "#{deploy_to}/bin:$PATH",
 	    'GEM_HOME' => "#{deploy_to}/gems",
@@ -72,4 +72,22 @@
 	     end
        end
       end
+
+    namespace :bundle do
+
+	  desc "run bundle install and ensure all gem requirements are met"
+	  task :install do
+	  	on roles(:app) do
+	     #execute "cd ~/webapps/trainingapp2/current"
+	    # execute "cd current"
+	     #execute "bundle install"
+	     #run "bundle install  --without=test --no-update-sources"
+	     capture("cd #{current_path}")
+	     capture("bundle install")
+	   end
+      end
+	end
+	#before 'deploy:restart', 'bundle:install'
     after 'deploy:finishing', 'deploy:restart'
+  # after 'deploy:finishing', 'bundle:install'
+    #after 'bundle:install', 'deploy:restart'

@@ -83,6 +83,7 @@ gem 'mini_magick'
 group :development do
   gem 'capistrano-rails'
   gem 'capistrano-passenger', '~> 0.0.2'
+  gem 'capistrano-bundler'
 end
 
 gem 'execjs'
